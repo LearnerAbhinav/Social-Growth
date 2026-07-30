@@ -17,11 +17,11 @@ export default function Testimonials() {
   const [testimonials, setTestimonials] = useState(STATIC_TESTIMONIALS);
   const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    fetchTestimonials()
-      .then(data => { if (data?.length > 0) setTestimonials(data); })
-      .catch(() => {});
-  }, []);
+  // useEffect(() => {
+  //   fetchTestimonials()
+  //     .then(data => { if (data?.length > 0) setTestimonials(data); })
+  //     .catch(() => {});
+  // }, []);
 
   useEffect(() => {
     const timer = setInterval(() => setActive(a => (a + 1) % testimonials.length), 5000);
@@ -43,7 +43,7 @@ export default function Testimonials() {
         >
           <span className="text-xs font-black uppercase tracking-[0.2em] text-[#8B2A4A]">Client Stories</span>
           <h2 className="text-4xl sm:text-5xl font-black text-white mt-2">
-            What Our <span className="text-gradient-maroon">Clients Say</span>
+            What Our <span className="text-gradient-premium whitespace-nowrap">Clients Say</span>
           </h2>
         </motion.div>
 

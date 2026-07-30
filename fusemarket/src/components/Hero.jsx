@@ -1,179 +1,139 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { fetchStats } from '../api/client';
 
 const STATIC_STATS = [
-  { value: '500+', label: 'Clients Served', icon: '👥' },
-  { value: '20+', label: 'Industries', icon: '🏭' },
-  { value: '1200+', label: 'Projects Delivered', icon: '✅' },
-  { value: '100+', label: 'Team Members', icon: '🤝' },
+  { value: '500+', label: 'Clients Served' },
+  { value: '20+', label: 'Industries' },
+  { value: '1200+', label: 'Projects Delivered' },
+  { value: '100+', label: 'Team Members' },
 ];
 
-const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } };
-
 export default function Hero() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
   const [stats, setStats] = useState(STATIC_STATS);
 
   useEffect(() => {
     fetchStats()
-      .then(data => {
-        if (data && data.length > 0) setStats(data.map(s => ({ value: s.value, label: s.label, icon: '📊' })));
-      })
+      .then(data => { if (data?.length > 0) setStats(data); })
       .catch(() => {});
   }, []);
 
-  const scrollToContact = () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  const scrollToServices = () => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section id="home" className="hero-bg relative min-h-screen flex items-center pt-28 pb-20" ref={ref}>
-      {/* Animated grid overlay */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
-        backgroundImage: `linear-gradient(#8B2A4A 1px, transparent 1px), linear-gradient(90deg, #8B2A4A 1px, transparent 1px)`,
-        backgroundSize: '60px 60px'
-      }} />
+    <section className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-mesh-gradient">
+      
+      {/* Decorative Orbs for extra depth */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-maroon/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-gold/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-4000" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left: Content */}
-          <div className="flex flex-col gap-8">
-            {/* Badge */}
-            <motion.div
-              variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/90 font-semibold text-xs px-4 py-2 rounded-full w-fit backdrop-blur-sm"
-            >
-              <span className="w-2 h-2 rounded-full bg-[#F5A623] animate-pulse" />
-              Full-Service Growth Partner • Fusse Market Pvt Ltd
-            </motion.div>
-
-            {/* Headline */}
-            <motion.div
-              variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight">
-                <span className="text-white block">We Build.</span>
-                <span className="block" style={{ background: 'linear-gradient(135deg, #c0445e, #F5A623)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  We Market.
-                </span>
-                <span className="text-white/90 block">We Scale.</span>
-              </h1>
-            </motion.div>
-
-            {/* Sub copy */}
-            <motion.p
-              variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-              transition={{ duration: 0.6, delay: 0.35 }}
-              className="text-white/60 text-lg leading-relaxed max-w-xl"
-            >
-              Fuse Market is a full-service Digital Transformation, Technology & Growth Partner helping startups, SMEs and enterprises build, market and scale successful businesses globally — from strategy and branding to software engineering, AI solutions, performance marketing and managed growth.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <motion.button
-                id="hero-cta-primary"
-                onClick={scrollToContact}
-                className="shine-btn flex items-center justify-center gap-2 bg-gradient-to-r from-[#8B2A4A] to-[#c0445e] text-white font-bold px-8 py-4 rounded-full text-base transition-all maroon-glow"
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97 }}
+          
+          {/* Left Column: Typography & CTAs */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-left"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-brand-maroon animate-pulse" />
+              <span className="text-xs font-bold tracking-widest text-white/80 uppercase">Full-Service Growth Partner</span>
+            </div>
+            
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-white leading-[1.05] tracking-tight mb-6">
+              <span className="whitespace-nowrap">We <span className="text-gradient-premium">Build.</span></span><br />
+              <span className="whitespace-nowrap">We <span className="text-gradient-premium">Market.</span></span><br />
+              <span className="whitespace-nowrap">We <span className="text-gradient-premium">Scale.</span></span>
+            </h1>
+            
+            <p className="text-lg sm:text-xl text-white/60 mb-10 max-w-xl leading-relaxed font-medium">
+              Fuse Market is your extended business team. From strategy and branding to software engineering and managed growth — everything under one roof.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-5">
+              <button 
+                onClick={() => scrollTo('contact')}
+                className="btn-premium flex items-center justify-center gap-2 group"
               >
-                Start Your Growth Journey →
-              </motion.button>
-              <motion.button
-                id="hero-cta-secondary"
-                onClick={scrollToServices}
-                className="flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-8 py-4 rounded-full text-base hover:border-white/60 hover:bg-white/10 transition-all duration-300"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                Start Your Journey
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+              <button 
+                onClick={() => scrollTo('services')}
+                className="btn-outline flex items-center justify-center"
               >
                 Explore Services
-              </motion.button>
-            </motion.div>
-
-            {/* Trust bar */}
-            <motion.div
-              variants={fadeUp} initial="hidden" animate={inView ? 'visible' : 'hidden'}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="flex items-center gap-6"
-            >
-              <div className="flex -space-x-2">
-                {['#8B2A4A','#3D4F6B','#F5A623','#c0445e','#0d1a2a'].map((c, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white/20 flex items-center justify-center text-white text-[10px] font-black" style={{ background: c }}>
-                    {['R','P','A','S','M'][i]}
-                  </div>
-                ))}
-              </div>
-              <div>
-                <div className="flex gap-0.5 mb-0.5">
-                  {[1,2,3,4,5].map(i => (
-                    <svg key={i} className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="#F5A623"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                  ))}
-                </div>
-                <p className="text-white/50 text-xs font-medium">Trusted by 500+ brands across India & globally</p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right: Stats grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:grid grid-cols-2 gap-4"
-          >
-            {stats.slice(0, 4).map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                className={`glass-dark rounded-2xl p-6 glow-border ${i % 2 === 1 ? 'mt-6' : ''}`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                whileHover={{ scale: 1.03, y: -4 }}
-              >
-                <p className="text-4xl font-black text-white mb-1" style={{ background: 'linear-gradient(135deg, #fff, #c0445e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  {stat.value}
-                </p>
-                <p className="text-white/50 text-sm font-medium">{stat.label}</p>
-                <div className="mt-3 h-1 rounded-full bg-gradient-to-r from-[#8B2A4A] to-[#3D4F6B] opacity-60" />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Mobile stats */}
-        <motion.div
-          className="lg:hidden grid grid-cols-2 gap-3 mt-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.6 }}
-        >
-          {stats.slice(0, 4).map((stat) => (
-            <div key={stat.label} className="glass-dark rounded-xl p-4 text-center glow-border">
-              <p className="text-2xl font-black text-white">{stat.value}</p>
-              <p className="text-white/50 text-xs mt-1">{stat.label}</p>
+              </button>
             </div>
-          ))}
-        </motion.div>
+          </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <div className="w-5 h-9 border-2 border-white/20 rounded-full flex justify-center pt-1.5">
-            <div className="w-1 h-2.5 rounded-full bg-white/40" />
+          {/* Right Column: Floating Glass Stats */}
+          <div className="relative h-[500px] hidden lg:block">
+            {stats.map((stat, i) => {
+              // Position cards in an asymmetrical, floating arrangement
+              const positions = [
+                { top: '10%', left: '10%', delay: 0.2 },
+                { top: '45%', right: '5%', delay: 0.4 },
+                { bottom: '15%', left: '15%', delay: 0.6 },
+                { bottom: '5%', right: '20%', delay: 0.8 },
+              ];
+              const pos = positions[i % 4];
+              
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: pos.delay, ease: "easeOut" }}
+                  className="absolute glass-card p-6 w-64 glow-border cursor-default"
+                  style={{
+                    top: pos.top,
+                    left: pos.left,
+                    right: pos.right,
+                    bottom: pos.bottom,
+                  }}
+                  whileHover={{ y: -10, scale: 1.05, transition: { duration: 0.3 } }}
+                >
+                  <h3 className="text-4xl font-black text-white mb-2 tracking-tight">{stat.value}</h3>
+                  <p className="text-sm text-white/60 font-medium uppercase tracking-wider">{stat.label}</p>
+                </motion.div>
+              );
+            })}
           </div>
-        </motion.div>
+
+          {/* Mobile Stats Grid */}
+          <div className="lg:hidden grid grid-cols-2 gap-4 mt-10">
+             {stats.map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 + (i * 0.1) }}
+                  className="glass-card p-5 text-center"
+                >
+                  <h3 className="text-3xl font-black text-white mb-1">{stat.value}</h3>
+                  <p className="text-xs text-white/60 font-medium uppercase">{stat.label}</p>
+                </motion.div>
+              ))}
+          </div>
+
+        </div>
       </div>
+      
+      {/* Scroll indicator */}
+      <motion.div 
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ repeat: Infinity, duration: 2 }}
+      >
+        <span className="text-[10px] uppercase tracking-widest font-bold">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-white to-transparent" />
+      </motion.div>
     </section>
   );
 }

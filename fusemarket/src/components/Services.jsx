@@ -1,170 +1,199 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
 import { fetchServices } from '../api/client';
 
-const STATIC_TABS = [
-  {
-    id: 'technology', label: 'Technology Services', icon: '⚙️',
-    services: [
-      { name: 'Custom Software Development', desc: 'Bespoke software — CRM, ERP, SaaS platforms built for your exact needs.', sub: ['Custom Software', 'Enterprise Software', 'SaaS Development', 'CRM Development', 'ERP', 'AI Software'] },
-      { name: 'Product Engineering', desc: 'From MVP to enterprise product — architecture, development and modernisation.', sub: ['MVP', 'Startup Product', 'Enterprise Product', 'Modernisation', 'API Development'] },
-      { name: 'Web Development', desc: 'High-performance websites — corporate, ecommerce, healthcare, real estate.', sub: ['Corporate Website', 'Ecommerce', 'Landing Pages', 'Healthcare', 'Real Estate'] },
-      { name: 'Mobile App Development', desc: 'Native and cross-platform apps for Android, iOS and enterprise.', sub: ['Android', 'iOS', 'Flutter', 'React Native', 'PWA', 'Enterprise Apps'] },
-      { name: 'Cloud & DevOps', desc: 'End-to-end cloud infrastructure, CI/CD and managed servers.', sub: ['AWS', 'Azure', 'Google Cloud', 'Docker', 'Kubernetes', 'Cloud Migration'] },
-      { name: 'AI & Automation', desc: 'AI agents, LLMs, chatbots and workflow automation for modern businesses.', sub: ['Chatbots', 'AI Agents', 'LLM Integration', 'Workflow Automation', 'RPA', 'Generative AI'] },
+// Keep the same STATIC_SERVICES structure but we'll render it differently
+const STATIC_SERVICES = {
+  'technology_services': {
+    title: 'Technology Services',
+    icon: '💻',
+    color: '#0ea5e9',
+    items: [
+      { id: 1, title: 'Custom Software', description: 'Bespoke CRM, ERP, and SaaS platforms built for scale.', features: 'Architecture, Cloud, APIs' },
+      { id: 2, title: 'Product Engineering', description: 'End-to-end product development from MVP to enterprise.', features: 'React, Node, Python' },
+      { id: 3, title: 'Mobile Apps', description: 'Native and cross-platform mobile experiences.', features: 'iOS, Android, Flutter' },
     ]
   },
-  {
-    id: 'digital_growth', label: 'Digital Growth', icon: '📈',
-    services: [
-      { name: 'SEO & Content Marketing', desc: 'Dominate search with technical SEO, content strategy and local rankings.', sub: ['Local SEO', 'International SEO', 'Technical SEO', 'Content Marketing', 'Link Building'] },
-      { name: 'Performance Marketing', desc: 'High-ROI campaigns across Meta, Google, YouTube and LinkedIn.', sub: ['Meta Ads', 'Google Ads', 'YouTube Ads', 'Shopping Ads', 'Lead Generation', 'Remarketing'] },
-      { name: 'D2C & E-Commerce Growth', desc: 'Scale your D2C brand on Shopify, Amazon and Flipkart.', sub: ['Shopify Marketing', 'Amazon Growth', 'Flipkart', 'Email Automation', 'Loyalty Programs'] },
-      { name: 'B2B Marketing', desc: 'ABM, LinkedIn campaigns, lead funnels and CRM-integrated pipelines.', sub: ['LinkedIn Ads', 'ABM Strategy', 'Lead Funnels', 'CRM Integration', 'Sales Funnels'] },
-      { name: 'UI/UX Design', desc: 'User-centred design from research to full design systems and dashboards.', sub: ['UX Research', 'Wireframing', 'Prototyping', 'Dashboard Design', 'Design Systems'] },
+  'digital_growth': {
+    title: 'Digital Growth',
+    icon: '📈',
+    color: '#10b981',
+    items: [
+      { id: 4, title: 'SEO & Content', description: 'Dominate search rankings with data-driven content.', features: 'Technical SEO, Link Building' },
+      { id: 5, title: 'Performance Marketing', description: 'High-ROI campaigns across Meta, Google, and LinkedIn.', features: 'PPC, Social Ads' },
+      { id: 6, title: 'D2C E-Commerce', description: 'Scale your Shopify or custom store rapidly.', features: 'CRO, Funnels' },
     ]
   },
-  {
-    id: 'creative', label: 'Creative Studio', icon: '🎨',
-    services: [
-      { name: 'Brand Strategy & Identity', desc: 'Premium brand positioning, visual identity and brand guidelines.', sub: ['Brand Positioning', 'Brand Identity', 'Visual Identity', 'Brand Guidelines', 'Messaging'] },
-      { name: 'Social Media Marketing', desc: 'Strategic social management across Instagram, Facebook, LinkedIn, YouTube, X.', sub: ['Instagram', 'Facebook', 'LinkedIn', 'YouTube', 'Threads', 'X (Twitter)', 'Community Mgmt'] },
-      { name: 'Creative Design', desc: 'Logo, packaging, brochures, catalogues, social media and outdoor design.', sub: ['Logo Design', 'Packaging', 'Brochure & Catalogue', 'Social Creatives', 'Print & Outdoor'] },
-      { name: 'Influencer Marketing', desc: 'End-to-end influencer campaigns from nano to celebrity.', sub: ['Nano', 'Micro', 'Macro', 'Celebrity', 'UGC', 'Brand Collaborations'] },
-      { name: 'Online Reputation Management', desc: 'Google reviews, PR, crisis management and reputation building.', sub: ['Google Reviews', 'PR Coverage', 'Brand Reputation', 'Crisis Management'] },
+  'creative_studio': {
+    title: 'Creative Studio',
+    icon: '🎨',
+    color: '#f59e0b',
+    items: [
+      { id: 7, title: 'Brand Identity', description: 'Logos, guidelines, and visual language that stands out.', features: 'Guidelines, Typography' },
+      { id: 8, title: 'UI/UX Design', description: 'User-centric interfaces that drive conversion.', features: 'Figma, Wireframing' },
+      { id: 9, title: 'Video Production', description: 'High-end commercials and social-first video content.', features: 'Reels, Ads, Shoots' },
     ]
   },
-  {
-    id: 'growth_partnership', label: '⭐ Growth Partnership', icon: '🚀',
-    services: [
-      { name: 'Managed Growth Services', desc: 'We become your complete extended business team. 30+ deliverables. Everything under one roof.', sub: ['Business Strategy', 'Brand Identity', 'Website', 'CRM', 'Automation', 'Sales Funnel', 'SEO', 'Performance Marketing', 'Social Media', 'Content Production', 'Influencer', 'PR', 'Lead Generation', 'Analytics', 'Conversion Optimisation', 'Email Marketing', 'Retention Marketing', 'Tech Support', 'Dedicated Account Manager', 'Monthly Strategy Meetings'] },
+  'growth_partnership': {
+    title: 'Growth Partnership',
+    icon: '🤝',
+    color: '#e11d48', // Using the brand maroon
+    items: [
+      { id: 10, title: 'Managed Growth', description: 'Your entire marketing and tech team, fully managed by us.', features: '30+ Deliverables' },
+      { id: 11, title: 'Fractional CMO', description: 'Executive-level marketing leadership for your board.', features: 'Strategy, Hiring' },
+      { id: 12, title: 'Venture Scaling', description: 'Aggressive growth strategies for funded startups.', features: 'CAC Optimization, LTV' },
     ]
-  },
-];
+  }
+};
 
 export default function Services() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const [activeTab, setActiveTab] = useState('technology');
-  const [tabs, setTabs] = useState(STATIC_TABS);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const [services, setServices] = useState(STATIC_SERVICES);
+  const [activeTab, setActiveTab] = useState('technology_services');
 
-  const activeData = tabs.find(t => t.id === activeTab);
-  const isGrowth = activeTab === 'growth_partnership';
+  // useEffect(() => {
+  //   fetchServices()
+  //     .then(data => { /* Data shape changed in redesign */ })
+  //     .catch(() => {});
+  // }, []);
+
+  const activeCategory = services[activeTab];
 
   return (
-    <section id="services" className="section-soft py-24" ref={ref}>
+    <section id="services" className="py-32 relative" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-[#8B2A4A]">Our Services</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mt-2">
-            Everything Your Business <span className="text-gradient-maroon">Needs to Grow</span>
-          </h2>
-          <p className="text-gray-500 text-lg mt-4 max-w-2xl mx-auto">
-            Divided into four major business units — choose what you need or let us manage everything.
-          </p>
-        </motion.div>
-
-        {/* Tabs */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          {STATIC_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeTab === tab.id
-                  ? 'tab-active text-white'
-                  : 'bg-white border border-gray-200 text-gray-600 hover:border-[#8B2A4A]/30 hover:text-[#8B2A4A]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl"
           >
-            {isGrowth ? (
-              // Growth Partnership — premium card
-              <div className="bg-gradient-to-br from-[#0A0D1A] to-[#1a0d1a] rounded-3xl p-8 sm:p-12 border border-white/5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #8B2A4A, transparent)' }} />
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 bg-[#F5A623]/15 border border-[#F5A623]/30 text-[#F5A623] text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full mb-6">
-                    ⭐ Premium Flagship Service
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl font-black text-white mb-4">
-                    Growth Partnership
-                  </h3>
-                  <p className="text-white/60 text-lg mb-3 max-w-2xl">
-                    We become your complete extended business team — handling strategy, branding, technology, marketing and growth all under one roof.
-                  </p>
-                  <p className="text-[#F5A623] font-semibold text-sm mb-8">
-                    "We don't simply run campaigns. We help businesses build, launch, market and scale sustainably."
-                  </p>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
-                    {activeData.services[0].sub.map((item) => (
-                      <div key={item} className="flex items-center gap-2 text-white/80 text-sm">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#8B2A4A] shrink-0" />
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                  <button
-                    onClick={() => document.getElementById('growth-partnership')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="shine-btn inline-flex items-center gap-2 bg-gradient-to-r from-[#8B2A4A] to-[#c0445e] text-white font-bold px-8 py-4 rounded-full maroon-glow"
-                  >
-                    See Full Package <ChevronRight size={18} />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              // Regular service grid
-              <div className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-5`}>
-                {activeData?.services.map((service, i) => (
-                  <motion.div
-                    key={service.name}
-                    className="bg-white rounded-2xl p-6 border border-gray-100 card-hover group cursor-pointer glow-border"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: i * 0.06 }}
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#8B2A4A]/10 to-[#3D4F6B]/10 flex items-center justify-center mb-4">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#8B2A4A] to-[#3D4F6B]" />
-                    </div>
-                    <h3 className="font-black text-gray-900 text-lg mb-2 group-hover:text-[#8B2A4A] transition-colors">{service.name}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed mb-4">{service.desc}</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {service.sub.slice(0, 4).map(s => (
-                        <span key={s} className="text-[11px] bg-gray-50 border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">{s}</span>
-                      ))}
-                      {service.sub.length > 4 && (
-                        <span className="text-[11px] text-[#8B2A4A] font-semibold">+{service.sub.length - 4} more</span>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="w-8 h-px bg-brand-maroon"></span>
+              <span className="text-brand-maroon font-bold tracking-widest uppercase text-xs">Our Expertise</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+              Everything Your Business <br/>
+              <span className="text-white/40 font-medium">Needs to Grow.</span>
+            </h2>
           </motion.div>
-        </AnimatePresence>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-white/50 max-w-sm text-sm leading-relaxed"
+          >
+            We don't believe in fragmented solutions. Our four core business units work in synergy to deliver compounding results.
+          </motion.p>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+          
+          {/* Left Column: Vertical Tabs */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
+            {Object.entries(services).map(([key, category], index) => {
+              const isActive = activeTab === key;
+              return (
+                <motion.button
+                  key={key}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  onClick={() => setActiveTab(key)}
+                  className={`relative flex items-center gap-4 p-5 rounded-2xl text-left transition-all duration-300 overflow-hidden group ${
+                    isActive ? 'bg-white/[0.05] border border-white/10' : 'hover:bg-white/[0.02] border border-transparent'
+                  }`}
+                >
+                  {/* Active Indicator Glow */}
+                  {isActive && (
+                    <div 
+                      className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl shadow-[0_0_15px_rgba(225,29,72,0.8)]"
+                      style={{ backgroundColor: category.color || '#E11D48' }}
+                    />
+                  )}
+                  
+                  <div 
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all duration-300 ${
+                      isActive ? 'bg-white/10 scale-110' : 'bg-brand-dark border border-white/5 group-hover:border-white/10'
+                    }`}
+                  >
+                    {category.icon}
+                  </div>
+                  
+                  <div>
+                    <h3 className={`font-bold transition-colors ${isActive ? 'text-white text-lg' : 'text-white/50 group-hover:text-white/80 text-base'}`}>
+                      {category.title}
+                    </h3>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Right Column: Bento Box Content Grid */}
+          <div className="lg:col-span-8 min-h-[400px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+                transition={{ duration: 0.3 }}
+                className="grid sm:grid-cols-2 gap-4 h-full"
+              >
+                {activeCategory?.items.map((item, i) => (
+                  <div 
+                    key={item.id} 
+                    className={`glass-card p-8 group relative overflow-hidden flex flex-col justify-between ${
+                      i === 0 ? 'sm:col-span-2' : '' // Make first item wide
+                    }`}
+                  >
+                    {/* Hover Gradient Background */}
+                    <div 
+                      className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
+                      style={{ background: `radial-gradient(circle at 100% 100%, ${activeCategory.color || '#E11D48'}, transparent)` }}
+                    />
+                    
+                    <div>
+                      <div className="flex justify-between items-start mb-6">
+                        <div 
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black bg-white/5 border border-white/10"
+                          style={{ color: activeCategory.color || '#E11D48' }}
+                        >
+                          0{i+1}
+                        </div>
+                        <svg className="w-5 h-5 text-white/20 group-hover:text-white/60 transition-colors -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </div>
+                      
+                      <h4 className="text-2xl font-bold text-white mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/50 transition-all">
+                        {item.title}
+                      </h4>
+                      <p className="text-white/50 text-sm leading-relaxed mb-6">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
+                      {item.features?.split(',').map((feat, idx) => (
+                        <span key={idx} className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded bg-white/5 text-white/40">
+                          {feat.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          
+        </div>
       </div>
     </section>
   );

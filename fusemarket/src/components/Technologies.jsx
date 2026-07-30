@@ -5,169 +5,164 @@ const TECH_TABS = [
   {
     id: 'frontend', label: 'Frontend',
     items: [
-      { name: 'React', color: '#61DAFB', bg: '#61DAFB15' },
-      { name: 'Next.js', color: '#ffffff', bg: '#ffffff10' },
-      { name: 'Angular', color: '#DD0031', bg: '#DD003115' },
-      { name: 'Vue.js', color: '#4FC08D', bg: '#4FC08D15' },
-      { name: 'TypeScript', color: '#3178C6', bg: '#3178C615' },
-      { name: 'JavaScript', color: '#F7DF1E', bg: '#F7DF1E15' },
-      { name: 'HTML5', color: '#E34F26', bg: '#E34F2615' },
-      { name: 'CSS3', color: '#1572B6', bg: '#1572B615' },
+      { name: 'React', color: '#61DAFB' },
+      { name: 'Next.js', color: '#ffffff' },
+      { name: 'Angular', color: '#DD0031' },
+      { name: 'Vue.js', color: '#4FC08D' },
+      { name: 'TypeScript', color: '#3178C6' },
+      { name: 'JavaScript', color: '#F7DF1E' },
     ]
   },
   {
     id: 'backend', label: 'Backend',
     items: [
-      { name: 'Node.js', color: '#339933', bg: '#33993315' },
-      { name: 'Django', color: '#0C4B33', bg: '#092d1f', textColor: '#44B78B' },
-      { name: 'Laravel', color: '#FF2D20', bg: '#FF2D2015' },
-      { name: '.NET', color: '#512BD4', bg: '#512BD415' },
-      { name: 'Spring Boot', color: '#6DB33F', bg: '#6DB33F15' },
-      { name: 'Python', color: '#3776AB', bg: '#3776AB15' },
-      { name: 'PHP', color: '#777BB4', bg: '#777BB415' },
-      { name: 'GraphQL', color: '#E10098', bg: '#E1009815' },
+      { name: 'Node.js', color: '#339933' },
+      { name: 'Django', color: '#092e20' },
+      { name: 'Laravel', color: '#FF2D20' },
+      { name: '.NET', color: '#512BD4' },
+      { name: 'Python', color: '#3776AB' },
     ]
   },
   {
     id: 'mobile', label: 'Mobile',
     items: [
-      { name: 'Flutter', color: '#02569B', bg: '#02569B15' },
-      { name: 'React Native', color: '#61DAFB', bg: '#61DAFB15' },
-      { name: 'Swift', color: '#FA7343', bg: '#FA734315' },
-      { name: 'Kotlin', color: '#7F52FF', bg: '#7F52FF15' },
+      { name: 'Flutter', color: '#02569B' },
+      { name: 'React Native', color: '#61DAFB' },
+      { name: 'Swift', color: '#FA7343' },
+      { name: 'Kotlin', color: '#7F52FF' },
     ]
   },
   {
-    id: 'database', label: 'Database',
+    id: 'database', label: 'Database & Cloud',
     items: [
-      { name: 'MongoDB', color: '#47A248', bg: '#47A24815' },
-      { name: 'MySQL', color: '#4479A1', bg: '#4479A115' },
-      { name: 'PostgreSQL', color: '#4169E1', bg: '#4169E115' },
-      { name: 'Firebase', color: '#FFCA28', bg: '#FFCA2815' },
-      { name: 'Redis', color: '#DC382D', bg: '#DC382D15' },
-    ]
-  },
-  {
-    id: 'cloud', label: 'Cloud',
-    items: [
-      { name: 'AWS', color: '#FF9900', bg: '#FF990015' },
-      { name: 'Azure', color: '#0078D4', bg: '#0078D415' },
-      { name: 'Google Cloud', color: '#4285F4', bg: '#4285F415' },
-      { name: 'DigitalOcean', color: '#0080FF', bg: '#0080FF15' },
-      { name: 'Cloudflare', color: '#F48120', bg: '#F4812015' },
-      { name: 'Docker', color: '#2496ED', bg: '#2496ED15' },
-      { name: 'Kubernetes', color: '#326CE5', bg: '#326CE515' },
+      { name: 'PostgreSQL', color: '#336791' },
+      { name: 'MongoDB', color: '#47A248' },
+      { name: 'Redis', color: '#DC382D' },
+      { name: 'AWS', color: '#FF9900' },
+      { name: 'Docker', color: '#2496ED' },
     ]
   },
   {
     id: 'ai', label: 'AI & ML',
     items: [
-      { name: 'OpenAI', color: '#10a37f', bg: '#10a37f15' },
-      { name: 'Gemini', color: '#4285F4', bg: '#4285F415' },
-      { name: 'Claude', color: '#D97706', bg: '#D9770615' },
-      { name: 'LangChain', color: '#1C3C3C', bg: '#1C3C3C30', textColor: '#7DD3BC' },
-      { name: 'Pinecone', color: '#1C4532', bg: '#1C453230', textColor: '#6EE7B7' },
-      { name: 'Vector DB', color: '#8B2A4A', bg: '#8B2A4A15' },
+      { name: 'OpenAI', color: '#10a37f' },
+      { name: 'Gemini', color: '#8e75ff' },
+      { name: 'Claude', color: '#d97757' },
+      { name: 'LangChain', color: '#1C3C3C' },
     ]
   },
   {
-    id: 'cms', label: 'CMS',
+    id: 'marketing', label: 'Marketing',
     items: [
-      { name: 'WordPress', color: '#21759B', bg: '#21759B15' },
-      { name: 'Shopify', color: '#95BF47', bg: '#95BF4715' },
-      { name: 'Webflow', color: '#4353FF', bg: '#4353FF15' },
-      { name: 'Strapi', color: '#4945FF', bg: '#4945FF15' },
-      { name: 'Sanity', color: '#F03E2F', bg: '#F03E2F15' },
-    ]
-  },
-  {
-    id: 'marketing', label: 'Marketing Tools',
-    items: [
-      { name: 'GA4', color: '#F9AB00', bg: '#F9AB0015' },
-      { name: 'Google Tag Manager', color: '#4285F4', bg: '#4285F415' },
-      { name: 'SEMrush', color: '#FF642D', bg: '#FF642D15' },
-      { name: 'Ahrefs', color: '#FF6600', bg: '#FF660015' },
-      { name: 'HubSpot', color: '#FF7A59', bg: '#FF7A5915' },
-      { name: 'Meta Ads Manager', color: '#1877F2', bg: '#1877F215' },
-      { name: 'Hotjar', color: '#FD3A5C', bg: '#FD3A5C15' },
-      { name: 'Looker Studio', color: '#4285F4', bg: '#4285F415' },
+      { name: 'GA4', color: '#F9AB00' },
+      { name: 'SEMrush', color: '#FF642D' },
+      { name: 'HubSpot', color: '#FF7A59' },
+      { name: 'Meta Ads', color: '#1877F2' },
     ]
   },
 ];
 
 export default function Technologies() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-100px' });
   const [activeTab, setActiveTab] = useState('frontend');
   const activeData = TECH_TABS.find(t => t.id === activeTab);
 
   return (
-    <section id="technologies" className="section-soft py-24" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="technologies" className="py-32 relative" ref={ref}>
+      {/* Background glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/[0.03] via-transparent to-transparent pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Header */}
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-[#8B2A4A]">Tech Stack</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mt-2">
-            Technologies We <span className="text-gradient-maroon">Master</span>
-          </h2>
-          <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto">
-            We choose the right tool for each project — no one-size-fits-all approach.
-          </p>
-        </motion.div>
-
-        {/* Tab strip */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-10"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.2 }}
-        >
-          {TECH_TABS.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${
-                activeTab === tab.id
-                  ? 'tab-active text-white'
-                  : 'bg-white border border-gray-200 text-gray-600 hover:border-[#8B2A4A]/40 hover:text-[#8B2A4A]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Tech pills grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            className="flex flex-wrap justify-center gap-3"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl"
           >
-            {activeData?.items.map((tech, i) => (
-              <motion.div
-                key={tech.name}
-                className="flex items-center gap-2.5 px-5 py-3 rounded-xl font-bold text-sm cursor-default hover:scale-105 transition-transform"
-                style={{ background: tech.bg, border: `1px solid ${tech.color}30`, color: tech.textColor || tech.color }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.04 }}
-              >
-                {/* Color dot */}
-                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: tech.color }} />
-                {tech.name}
-              </motion.div>
-            ))}
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="w-8 h-px bg-brand-maroon"></span>
+              <span className="text-brand-maroon font-bold tracking-widest uppercase text-xs">Tech Stack</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+              Technologies We <span className="text-white/40 font-medium whitespace-nowrap">Master.</span>
+            </h2>
           </motion.div>
-        </AnimatePresence>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-white/50 max-w-sm text-sm leading-relaxed"
+          >
+            We choose the right tool for each project — no one-size-fits-all approach. Built for performance, security, and scale.
+          </motion.p>
+        </div>
+
+        {/* Layout: Left Tabs, Right Grid */}
+        <div className="grid lg:grid-cols-12 gap-12">
+          
+          {/* Tabs */}
+          <div className="lg:col-span-4 flex flex-row lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide">
+            {TECH_TABS.map((tab, i) => (
+              <motion.button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                className={`px-6 py-4 rounded-2xl text-sm font-bold transition-all duration-300 text-left flex-shrink-0 lg:flex-shrink ${
+                  activeTab === tab.id
+                    ? 'bg-white/10 text-white shadow-lg shadow-black/20'
+                    : 'text-white/40 hover:text-white/80 hover:bg-white/5'
+                }`}
+              >
+                {tab.label}
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Grid */}
+          <div className="lg:col-span-8">
+            <div className="glass-card p-8 sm:p-12 min-h-[400px] flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  className="flex flex-wrap justify-center gap-4 sm:gap-6"
+                  initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {activeData?.items.map((tech, i) => (
+                    <motion.div
+                      key={tech.name}
+                      className="group flex flex-col items-center justify-center gap-4 w-32 h-32 sm:w-40 sm:h-40 rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500 cursor-default"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                    >
+                      {/* Abstract logo representation (colored dot for now, replacing with real SVG would be ideal) */}
+                      <div 
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 shadow-xl"
+                        style={{ background: `linear-gradient(135deg, ${tech.color}40, ${tech.color}10)`, border: `1px solid ${tech.color}50` }}
+                      >
+                        <div className="w-4 h-4 rounded-full" style={{ background: tech.color }} />
+                      </div>
+                      <span className="font-bold text-white/70 group-hover:text-white transition-colors text-sm">
+                        {tech.name}
+                      </span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

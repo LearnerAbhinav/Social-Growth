@@ -26,11 +26,11 @@ export default function Industries() {
   const [industries, setIndustries] = useState(STATIC_INDUSTRIES);
   const [hovered, setHovered] = useState(null);
 
-  useEffect(() => {
-    fetchIndustries()
-      .then(data => { if (data?.length > 0) setIndustries(data); })
-      .catch(() => {});
-  }, []);
+  // useEffect(() => {
+  //   fetchIndustries()
+  //     .then(data => { if (data?.length > 0) setIndustries(data); })
+  //     .catch(() => {});
+  // }, []);
 
   return (
     <section id="industries" className="section-dark py-24" ref={ref}>
@@ -49,7 +49,7 @@ export default function Industries() {
         >
           <span className="text-xs font-black uppercase tracking-[0.2em] text-[#8B2A4A]">Industries We Serve</span>
           <h2 className="text-4xl sm:text-5xl font-black text-white mt-2">
-            Expertise Across <span className="text-gradient-maroon">Every Sector</span>
+            Expertise Across <span className="text-gradient-premium whitespace-nowrap">Every Sector</span>
           </h2>
           <p className="text-white/50 text-lg mt-4 max-w-2xl mx-auto">
             Deep domain knowledge across 15+ industries — from healthcare and real estate to technology and agriculture.

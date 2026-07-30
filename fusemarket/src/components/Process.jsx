@@ -18,83 +18,88 @@ const STEPS = [
 
 export default function Process() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="process" className="section-soft py-24" ref={ref}>
+    <section id="process" className="py-32 relative" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-24"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-[#8B2A4A]">How We Work</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mt-2">
-            Our <span className="text-gradient-maroon">12-Step Process</span>
+          <div className="inline-flex items-center justify-center gap-2 mb-4">
+            <span className="w-8 h-px bg-brand-maroon"></span>
+            <span className="text-brand-maroon font-bold tracking-widest uppercase text-xs">How We Work</span>
+            <span className="w-8 h-px bg-brand-maroon"></span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+            Our <span className="text-white/40 font-medium whitespace-nowrap">12-Step Process.</span>
           </h2>
-          <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto">
-            A proven framework that takes you from idea to scalable growth — step by step.
+          <p className="text-white/50 text-lg mt-6 max-w-2xl mx-auto leading-relaxed">
+            A proven framework that takes you from idea to scalable growth — step by step. No guesswork, just results.
           </p>
         </motion.div>
 
         {/* Desktop: horizontal flow (2 rows of 6) */}
-        <div className="hidden lg:block">
+        <div className="hidden xl:block relative">
           {[STEPS.slice(0, 6), STEPS.slice(6, 12)].map((row, rowIdx) => (
-            <div key={rowIdx} className={`grid grid-cols-6 gap-0 mb-4 ${rowIdx === 1 ? 'direction-rtl' : ''}`}>
+            <div key={rowIdx} className={`grid grid-cols-6 gap-6 mb-12 ${rowIdx === 1 ? 'direction-rtl' : ''}`}>
               {row.map((step, i) => {
                 const globalIdx = rowIdx * 6 + i;
                 const isLast = i === row.length - 1;
                 return (
                   <motion.div
                     key={step.num}
-                    className="relative flex flex-col items-center text-center px-2"
+                    className="relative flex flex-col items-center text-center group"
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: globalIdx * 0.06 }}
+                    transition={{ duration: 0.5, delay: globalIdx * 0.05 }}
                   >
-                    {/* Connector line */}
+                    {/* Connecting Line */}
                     {!isLast && (
-                      <div className="absolute top-5 left-[calc(50%+20px)] right-0 h-0.5 bg-gradient-to-r from-[#8B2A4A]/40 to-gray-200" />
+                      <div className="absolute top-7 left-[calc(50%+30px)] right-[-30px] h-px bg-white/10 group-hover:bg-brand-maroon/50 transition-colors duration-500" />
                     )}
-                    {/* Step circle */}
-                    <motion.div
-                      className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white mb-4 shrink-0"
-                      style={{ background: 'linear-gradient(135deg, #8B2A4A, #c0445e)' }}
-                      whileHover={{ scale: 1.15 }}
-                    >
+                    
+                    {/* Step Number Circle */}
+                    <div className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center bg-brand-dark border-2 border-white/10 text-white/40 font-black text-lg mb-6 group-hover:border-brand-maroon group-hover:text-white group-hover:shadow-[0_0_20px_rgba(225,29,72,0.4)] transition-all duration-300">
                       {step.num}
-                    </motion.div>
-                    <h3 className="font-black text-gray-900 text-sm mb-1.5">{step.title}</h3>
-                    <p className="text-gray-500 text-[11px] leading-relaxed">{step.desc}</p>
+                    </div>
+                    
+                    <h3 className="font-bold text-white text-base mb-2 group-hover:text-brand-maroon transition-colors">{step.title}</h3>
+                    <p className="text-white/40 text-[11px] leading-relaxed px-2">{step.desc}</p>
                   </motion.div>
                 );
               })}
             </div>
           ))}
-          {/* Down arrow between rows */}
-          <div className="flex justify-end pr-8 my-1">
-            <div className="w-0.5 h-8 bg-gradient-to-b from-[#8B2A4A] to-gray-200" />
-          </div>
+          
+          {/* Connector down arrow between rows */}
+          <div className="absolute right-[calc(8.33%)] top-[120px] w-px h-16 bg-white/10" />
         </div>
 
-        {/* Mobile: vertical list */}
-        <div className="lg:hidden space-y-4">
+        {/* Mobile/Tablet: vertical list with glass cards */}
+        <div className="xl:hidden max-w-3xl mx-auto space-y-4 relative">
+          {/* Vertical connecting line */}
+          <div className="absolute left-[39px] top-4 bottom-4 w-px bg-white/10 hidden sm:block" />
+          
           {STEPS.map((step, i) => (
             <motion.div
               key={step.num}
-              className="flex gap-4 p-4 bg-white rounded-xl border border-gray-100"
+              className="glass-card p-5 flex flex-col sm:flex-row gap-5 items-start relative z-10 hover:border-brand-maroon/30 transition-colors"
               initial={{ opacity: 0, x: -20 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.05 }}
             >
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black text-white shrink-0" style={{ background: 'linear-gradient(135deg, #8B2A4A, #c0445e)' }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10 text-brand-maroon font-black text-sm shrink-0">
                 {step.num}
               </div>
               <div>
-                <h3 className="font-black text-gray-900 text-sm">{step.title}</h3>
-                <p className="text-gray-500 text-xs mt-0.5 leading-relaxed">{step.desc}</p>
+                <h3 className="font-bold text-white text-base mb-1">{step.title}</h3>
+                <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -102,17 +107,17 @@ export default function Process() {
 
         {/* CTA */}
         <motion.div
-          className="mt-14 text-center"
+          className="mt-24 text-center"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8 }}
         >
-          <p className="text-gray-500 text-sm mb-4">Ready to start your journey?</p>
+          <p className="text-white/50 text-sm font-medium tracking-wide uppercase mb-6">Ready to start your journey?</p>
           <button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="shine-btn inline-flex items-center gap-2 bg-gradient-to-r from-[#8B2A4A] to-[#c0445e] text-white font-bold px-8 py-3.5 rounded-full maroon-glow text-sm"
+            className="btn-premium"
           >
-            Book a Free Discovery Call →
+            Book a Free Discovery Call
           </button>
         </motion.div>
       </div>

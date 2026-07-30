@@ -25,41 +25,46 @@ const CATEGORIES = [
 
 export default function FAQ() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-100px' });
   const [faqs, setFaqs] = useState(STATIC_FAQS);
   const [activeCategory, setActiveCategory] = useState('all');
   const [openId, setOpenId] = useState(null);
 
-  useEffect(() => {
-    fetchFAQs()
-      .then(data => { if (data?.all?.length > 0) setFaqs(data.all); })
-      .catch(() => {});
-  }, []);
+  // useEffect(() => {
+  //   fetchFAQs()
+  //     .then(data => { if (data?.all?.length > 0) setFaqs(data.all); })
+  //     .catch(() => {});
+  // }, []);
 
   const filtered = activeCategory === 'all' ? faqs : faqs.filter(f => f.category === activeCategory);
 
   return (
-    <section id="faq" className="section-soft py-24" ref={ref}>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-32 relative overflow-hidden" ref={ref}>
+      {/* Background elements */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-maroon/5 rounded-full filter blur-[150px] pointer-events-none -translate-y-1/2 translate-x-1/4" />
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Header */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-[#8B2A4A]">FAQs</span>
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mt-2">
-            Frequently Asked <span className="text-gradient-maroon">Questions</span>
+          <div className="inline-flex items-center justify-center gap-2 mb-4">
+            <span className="w-8 h-px bg-brand-maroon"></span>
+            <span className="text-brand-maroon font-bold tracking-widest uppercase text-xs">Clarity & Transparency</span>
+            <span className="w-8 h-px bg-brand-maroon"></span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+            Frequently Asked <span className="text-white/40 font-medium whitespace-nowrap">Questions.</span>
           </h2>
-          <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto">
-            Everything you need to know about Fuse Market's services, process and partnership.
-          </p>
         </motion.div>
 
         {/* Category tabs */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-10"
+          className="flex flex-wrap justify-center gap-3 mb-12"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2 }}
@@ -68,10 +73,10 @@ export default function FAQ() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+              className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                 activeCategory === cat.id
-                  ? 'tab-active text-white'
-                  : 'bg-white border border-gray-200 text-gray-600 hover:text-[#8B2A4A] hover:border-[#8B2A4A]/30'
+                  ? 'bg-white text-brand-dark shadow-[0_0_20px_rgba(255,255,255,0.2)]'
+                  : 'bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10'
               }`}
             >
               {cat.label}
@@ -80,28 +85,28 @@ export default function FAQ() {
         </motion.div>
 
         {/* Accordion */}
-        <div className="space-y-3">
-          <AnimatePresence>
+        <div className="space-y-4">
+          <AnimatePresence mode="popLayout">
             {filtered.map((faq, i) => (
               <motion.div
                 key={faq.id}
-                className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm"
-                initial={{ opacity: 0, y: 15 }}
+                className={`glass-card overflow-hidden transition-all duration-300 ${openId === faq.id ? 'border-white/30 bg-white/[0.05]' : 'border-white/5 bg-white/[0.02]'}`}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
               >
                 <button
-                  className="w-full flex items-center justify-between px-6 py-5 text-left group"
+                  className="w-full flex items-center justify-between px-6 py-6 text-left group"
                   onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
                 >
-                  <span className="font-bold text-gray-900 text-sm sm:text-base pr-4 group-hover:text-[#8B2A4A] transition-colors">
+                  <span className={`font-bold text-lg transition-colors pr-6 ${openId === faq.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
                     {faq.question}
                   </span>
-                  <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors" style={{ background: openId === faq.id ? '#8B2A4A' : '#f3f4f6' }}>
+                  <span className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${openId === faq.id ? 'bg-brand-maroon rotate-180' : 'bg-white/5 group-hover:bg-white/10 border border-white/10'}`}>
                     {openId === faq.id
-                      ? <Minus size={14} className="text-white" />
-                      : <Plus size={14} className="text-gray-500" />
+                      ? <Minus size={16} className="text-white" />
+                      : <Plus size={16} className="text-white/70" />
                     }
                   </span>
                 </button>
@@ -111,12 +116,11 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: 'easeInOut' }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5 pt-0">
-                        <div className="h-px bg-gray-100 mb-4" />
-                        <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
+                      <div className="px-6 pb-6 pt-0">
+                        <p className="text-white/50 text-sm leading-relaxed">{faq.answer}</p>
                       </div>
                     </motion.div>
                   )}
@@ -126,23 +130,6 @@ export default function FAQ() {
           </AnimatePresence>
         </div>
 
-        {/* CTA */}
-        <motion.div
-          className="mt-12 text-center p-8 rounded-2xl border border-[#8B2A4A]/20"
-          style={{ background: 'linear-gradient(135deg, rgba(139,42,74,0.04), rgba(61,79,107,0.04))' }}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
-        >
-          <p className="font-bold text-gray-900 mb-2">Still have questions?</p>
-          <p className="text-gray-500 text-sm mb-5">Talk to our team — we're happy to help you find the right solution.</p>
-          <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#8B2A4A] to-[#c0445e] text-white font-bold px-7 py-3 rounded-full text-sm maroon-glow"
-          >
-            Get in Touch →
-          </button>
-        </motion.div>
       </div>
     </section>
   );
