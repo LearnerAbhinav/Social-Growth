@@ -1,106 +1,51 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Phone, Globe, MessageCircle } from 'lucide-react';
-
-const contacts = [
-  {
-    icon: MessageCircle,
-    title: 'DM to Get Started!',
-    sub: "Let's grow your brand, the smart way.",
-    value: 'WhatsApp / DM',
-    link: 'https://wa.me/918418818469?text=Hi! I want to grow my brand with FuseMarket.',
-    id: 'footer-cta-whatsapp',
-    color: '#E91467',
-  },
-  {
-    icon: Phone,
-    title: '+91 8418818469',
-    sub: 'Call us anytime, Mon–Sat 9am–7pm',
-    value: 'Call Now',
-    link: 'tel:+918418818469',
-    id: 'footer-cta-phone',
-    color: '#F5A623',
-  },
-  {
-    icon: Globe,
-    title: 'www.fusemarket.in',
-    sub: 'Visit our website for more info',
-    value: 'Open Website',
-    link: 'https://fusemarket.in',
-    id: 'footer-cta-website',
-    color: '#a78bfa',
-  },
-];
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 export default function FooterCTA() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
   return (
-    <section id="contact" className="bg-navy relative overflow-hidden py-16">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
-      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-pink to-transparent" />
+    <section className="py-20 relative overflow-hidden" ref={ref} style={{ background: 'linear-gradient(135deg, #8B2A4A 0%, #6B1E38 40%, #3D4F6B 100%)' }}>
+      {/* Decorative blobs */}
+      <div className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, #fff, transparent)', transform: 'translate(50%, -50%)' }} />
+      <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #F5A623, transparent)', transform: 'translate(-50%, 50%)' }} />
 
-      {/* Glow blobs */}
-      <div className="absolute left-1/4 -top-20 w-80 h-80 rounded-full bg-pink/10 blur-3xl pointer-events-none" />
-      <div className="absolute right-1/4 -bottom-20 w-80 h-80 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Headline */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
         >
-          <p className="text-pink font-bold text-sm tracking-widest uppercase mb-3">Ready to Grow?</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
-            DM to get started!{' '}
-            <span className="text-gradient-pink">Let's grow your brand,</span>
-            <br />
-            <span className="text-gold">the smart way.</span>
+          <p className="text-white/70 text-sm font-semibold uppercase tracking-widest mb-4">Ready to Transform Your Business?</p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
+            Let's Build Something <br />
+            <span className="text-[#F5A623]">Extraordinary</span> Together
           </h2>
-        </motion.div>
-
-        {/* Contact grid */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {contacts.map((c, i) => (
-            <motion.a
-              key={c.title}
-              href={c.link}
+          <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">
+            Join 500+ businesses that trust Fuse Market to build, market and scale. One partnership, unlimited growth.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.button
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              id="footer-cta-btn"
+              className="shine-btn bg-white text-[#8B2A4A] font-black px-10 py-4 rounded-full text-base hover:shadow-2xl transition-all"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Get Free Consultation →
+            </motion.button>
+            <a
+              href="https://wa.me/918418818469?text=Hi! I want to learn about Fuse Market services."
               target="_blank"
               rel="noopener noreferrer"
-              id={c.id}
-              className="group flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl p-5 transition-all duration-300 card-hover"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              whileHover={{ scale: 1.02 }}
+              className="flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-10 py-4 rounded-full hover:bg-white/10 hover:border-white/70 transition-all"
             >
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
-                style={{ background: `${c.color}20` }}
-              >
-                <c.icon size={22} style={{ color: c.color }} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-white font-black text-base truncate">{c.title}</p>
-                <p className="text-white/50 text-xs mt-0.5 leading-tight">{c.sub}</p>
-              </div>
-              <div
-                className="text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0 transition-all duration-300"
-                style={{ background: `${c.color}20`, color: c.color }}
-              >
-                {c.value} →
-              </div>
-            </motion.a>
-          ))}
-        </div>
+              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#25D366]"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.528 5.855L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.37l-.36-.214-3.727.977.994-3.634-.235-.374A9.818 9.818 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+              WhatsApp Us
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

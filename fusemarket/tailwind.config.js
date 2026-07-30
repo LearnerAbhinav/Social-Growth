@@ -7,46 +7,60 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: "#141652",
-        pink: "#E91467",
-        gold: "#F5A623",
-        "navy-light": "#1e2070",
-        "pink-dark": "#c00f57",
+        maroon: {
+          DEFAULT: '#8B2A4A',
+          dark: '#6B1E38',
+          light: '#b03a5e',
+        },
+        slate: {
+          brand: '#3D4F6B',
+          'brand-dark': '#2c3a52',
+        },
+        gold: {
+          DEFAULT: '#F5A623',
+          light: '#ffc04f',
+        },
+        dark: {
+          DEFAULT: '#0A0D1A',
+          card: '#111827',
+          border: 'rgba(255,255,255,0.08)',
+        },
+        navy: '#0A0D1A',
       },
       fontFamily: {
-        sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Inter', 'Outfit', 'system-ui', 'sans-serif'],
+        heading: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
-        'float': 'float 3s ease-in-out infinite',
-        'float-delay': 'float 3s ease-in-out infinite 1.5s',
-        'pulse-pink': 'pulsePink 2s ease-in-out infinite',
-        'bar-grow': 'barGrow 1.5s ease-out forwards',
-        'ring-fill': 'ringFill 1.5s ease-out forwards',
+        marquee: 'marquee 30s linear infinite',
+        floatSlow: 'floatAnim 3.5s ease-in-out infinite',
+        pulseBg: 'pulseBg 6s ease-in-out infinite',
       },
       keyframes: {
-        float: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        floatAnim: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
         },
-        pulsePink: {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(233,20,103,0.4)' },
-          '50%': { boxShadow: '0 0 0 12px rgba(233,20,103,0)' },
+        pulseBg: {
+          '0%, 100%': { opacity: '0.8', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.05)' },
         },
-        barGrow: {
-          '0%': { height: '0%' },
-          '100%': { height: 'var(--bar-height)' },
-        },
-        ringFill: {
-          '0%': { strokeDashoffset: '283' },
-          '100%': { strokeDashoffset: 'var(--ring-offset)' },
-        }
+      },
+      boxShadow: {
+        maroon: '0 0 24px rgba(139,42,74,0.35)',
+        'maroon-lg': '0 0 40px rgba(139,42,74,0.5)',
+        card: '0 4px 24px rgba(10,13,26,0.08)',
+        'card-lg': '0 16px 48px rgba(10,13,26,0.12)',
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #f8f0ff 0%, #ffe8f3 50%, #fff8f0 100%)',
-        'navy-gradient': 'linear-gradient(135deg, #141652 0%, #1e2070 100%)',
-        'pink-gradient': 'linear-gradient(135deg, #E91467 0%, #ff3385 100%)',
-      }
+        'gradient-maroon': 'linear-gradient(135deg, #8B2A4A, #c0445e)',
+        'gradient-dark': 'linear-gradient(135deg, #0A0D1A, #1a0d1a)',
+        'gradient-brand': 'linear-gradient(135deg, #8B2A4A, #3D4F6B)',
+      },
     },
   },
   plugins: [],
